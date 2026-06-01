@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Fix express-handlebars
+        run: npm install express-handlebars@6.0.6
+
+      - name: Fix app.js
+        run: |
+          sed -i 's/const exphbs = require('\''express-handlebars'\'');/const { engine } = require('\''express-handlebars'\'');/' app.js
+          sed -i 's/app.engine('\''handlebars'\'', exphbs({/app.engine('\''handlebars'\'', engine({/' app.js
+
+      - name: Run tests
+        run: npm test
