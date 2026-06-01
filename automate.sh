@@ -12,7 +12,7 @@ echo ">>> Step 2: Committing..."
 git commit -m "Automated commit - $(date)"
 
 echo ">>> Step 3: Pushing to GitHub..."
-git push origin main
+git push origin master
 
 echo "================================"
 echo " Push done! CI/CD Pipeline is  "
